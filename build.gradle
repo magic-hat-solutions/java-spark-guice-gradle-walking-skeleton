@@ -10,6 +10,13 @@
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 
+sourceCompatibility = 1.8
+
+// Apply application plugin for easy application start
+apply plugin: 'application'
+
+mainClassName = "uk.gov.justice.digital.noms.Server"
+
 // Apply the groovy plugin to also add support for Groovy (needed for Spock)
 apply plugin: 'groovy'
 
@@ -24,11 +31,10 @@ repositories {
 dependencies {
     // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.21'
-
-    // We use the latest groovy 2.x version for Spock testing
-    compile 'org.codehaus.groovy:groovy-all:2.4.7'
+    compile 'com.google.inject:guice:4.1.0'
+    compile 'com.sparkjava:spark-core:2.5.4'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
 
     // Use the awesome Spock testing and specification framework even with Java
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
-    testCompile 'junit:junit:4.12'
 }
