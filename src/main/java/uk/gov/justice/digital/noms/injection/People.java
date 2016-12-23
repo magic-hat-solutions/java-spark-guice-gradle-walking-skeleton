@@ -36,7 +36,7 @@ public class People implements Service {
         return new HashMap<String, Object>() {
             {
                 put("person", person);
-                put("link", "/people/" + person.getId());
+                put("link", "/person/" + person.getId());
             }
         };
     }
