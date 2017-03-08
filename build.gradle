@@ -10,7 +10,7 @@
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.7
 
 // Apply application plugin for easy application start
 apply plugin: 'application'
@@ -27,25 +27,28 @@ repositories {
     jcenter()
 }
 
+// In this section you declare the dependencies for your production and test code
+dependencies {
+    // The production code uses the SLF4J logging API at compile time
+    compile 'org.slf4j:slf4j-simple:1.7.24'
+    compile 'com.google.inject:guice:4.1.0'
+    compile 'com.sparkjava:spark-core:1.1.1' // 2.5.5 if Java 1.8 supported
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
+    compile 'com.mashape.unirest:unirest-java:1.4.9'
+
+    // Use the awesome Spock testing and specification framework even with Java
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+}
+
 jar {
     manifest {
         attributes 'Main-Class': 'uk.gov.justice.digital.noms.Server'
     }
 
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
     }
-}
-
-// In this section you declare the dependencies for your production and test code
-dependencies {
-    // The production code uses the SLF4J logging API at compile time
-    compile 'org.slf4j:slf4j-api:1.7.21'
-    compile 'com.google.inject:guice:4.1.0'
-    compile 'com.sparkjava:spark-core:2.5.4'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
-
-    // Use the awesome Spock testing and specification framework even with Java
-    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
-    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
 }
